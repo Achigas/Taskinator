@@ -211,7 +211,9 @@ var dragTaskHandler = function(event) {
 var dropZoneDragHandler = function(event) {
     var taskListEl = event.target.closest(".task-list");
         if (taskListEl) {
-        event.preventDefault();
+        event.preventDefault();    
+        //change what task will look like when dragged
+        taskListEl.setAttribute("style", "background: rgba(68, 233, 255, 0.7); border-style: dashed;");
         }
 };
 
@@ -233,8 +235,17 @@ var dropTaskHandler = function(event) {
         else if (statusType === "tasks-completed") {
         statusSelectEl.selectedIndex = 2;
         }
+
+    dropZoneEl.removeAttribute("style")
     
     dropZoneEl.appendChild(draggableElement);
+};
+
+var dragLeaveHandler = function(event) {
+    var taskListEl = event.target.closest(".task-list");
+        if (taskListEl) {
+        taskListEl.removeAttribute("style");
+        }
 };
 
 //on button click or enter - create a task
@@ -249,3 +260,5 @@ pageContentEl.addEventListener("dragstart", dragTaskHandler);
 pageContentEl.addEventListener("dragover", dropZoneDragHandler);
 //drop event listener
 pageContentEl.addEventListener("drop", dropTaskHandler);
+//drag leave, change style
+pageContentEl.addEventListener("dragleave", dragLeaveHandler);
