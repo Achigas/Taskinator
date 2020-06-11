@@ -78,6 +78,8 @@ var createTaskEl = function(taskDataObj) {
     //increase task counter for next unique id
     taskIdCounter++;
 
+    saveTasks()
+
 }
 //create actions for task
 var createTaskActions = function(taskId) {
@@ -172,7 +174,9 @@ var taskStatusChangeHandler = function(event) {
         if (tasks[i].id === parseInt(taskId)) {
             tasks[i].status = statusValue;
         }
-    }   
+    }
+    
+    saveTasks()
 };
 
 //get elements to edit code, put them in form, etc.
@@ -215,6 +219,8 @@ var completeEditTask = function(taskName, taskType, taskId) {
     //Remove data attribute from form and change button back to add task instead of save task
     formEl.removeAttribute("data-task-id");
     document.querySelector("#save-task").textContent = "Add Task";
+
+    saveTasks()
 };
 
 var deleteTask = function(taskId) {
@@ -233,6 +239,8 @@ var deleteTask = function(taskId) {
 
     // reassign tasks array to be the same as updatedTaskArr
     tasks = updatedTaskArr;
+
+    saveTasks()
 };
 
 var dragTaskHandler = function(event) {
@@ -282,6 +290,8 @@ var dropTaskHandler = function(event) {
             tasks[i].status = statusSelectEl.value.toLowerCase();
         }
     };
+
+    saveTasks()
 };
 
 var dragLeaveHandler = function(event) {
@@ -289,6 +299,10 @@ var dragLeaveHandler = function(event) {
         if (taskListEl) {
         taskListEl.removeAttribute("style");
         }
+};
+
+var saveTasks = function() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
 //on button click or enter - create a task
