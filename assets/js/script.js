@@ -1,6 +1,7 @@
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
 var taskIdCounter = 0;
+var pageContentEl = document.querySelector("#page-content");
 
 //Gather data from user input for task
 var taskFormHandler = function (event) {
@@ -46,7 +47,7 @@ var createTaskEl = function(taskDataObj) {
     listItemEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
     //add to list item
     listItemEl.appendChild(taskInfoEl);
-    
+
     //call function to create task actions
     var taskActionsEl = createTaskActions(taskIdCounter);
     listItemEl.appendChild(taskActionsEl);
@@ -105,5 +106,21 @@ var createTaskActions = function(taskId) {
     return actionContainerEl;
 };
 
+var taskButtonHandler = function(event) {
+
+    if (event.target.matches(".delete-btn")) {
+        //get the elements taskId
+        var taskId = event.target.getAttribute("data-task-id");
+        deleteTask(taskId);
+    }
+};
+
+var deleteTask = function(taskId) {
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+    taskSelected.remove();
+};
+
 //on button click or enter - create a task
 formEl.addEventListener("submit", taskFormHandler);
+//on button click - run button handler
+pageContentEl.addEventListener("click", taskButtonHandler);
