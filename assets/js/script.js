@@ -257,7 +257,7 @@ var dropZoneDragHandler = function(event) {
         if (taskListEl) {
         event.preventDefault();    
         //change what task will look like when dragged
-        taskListEl.setAttribute("style", "background: rgba(68, 233, 255, 0.7); border-style: dashed;");
+        taskListEl.setAttribute("style", "background: rgba(104,119,93,0.6); border-style: dashed;");
         }
 };
 
