@@ -310,9 +310,8 @@ var loadTasks = function() {
         //create new array to hold updated list of tasks
         var tasksLoaded = localStorage.getItem('tasks')
         //loop through current tasks, check if empty
-            if (tasksLoaded === null) {
-                tasksLoaded = [];
-                return false; 
+            if (!tasksLoaded ) {
+                return false;
             }       
 
         tasksLoaded = JSON.parse(tasksLoaded);
@@ -347,7 +346,7 @@ var loadTasks = function() {
                     listItemEl.querySelector("select[name='status-change']").selectedIndex = 2;
                     tasksCompletedEl.appendChild(listItemEl)
                 }
-                
+
             tasks.push(tasksLoaded[i]);
             taskIdCounter++
         }
