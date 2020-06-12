@@ -305,6 +305,56 @@ var saveTasks = function() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+var loadTasks = function() {
+    //retrieve from local storage
+        //create new array to hold updated list of tasks
+        var tasksLoaded = localStorage.getItem('tasks')
+        //loop through current tasks, check if empty
+            if (tasksLoaded === null) {
+                tasksLoaded = [];
+                return false; 
+            }       
+
+        tasksLoaded = JSON.parse(tasksLoaded);
+
+        for (var i = 0; i < tasksLoaded.length; i++) {
+
+            tasksLoaded[i].id = taskIdCounter
+
+            var listItemEl = document.createElement('li');
+            listItemEl.className = "task-item";
+            listItemEl.setAttribute("data-task-id", tasksLoaded[i].id);
+            listItemEl.setAttribute("draggable", "true");
+
+            var taskInfoEl = document.createElement('div');
+            taskInfoEl.className = "task-info";
+            taskInfoEl.innerHTML = "<h3 class='task-name'>" + tasksLoaded[i].name + "</h3><span class='task-type'>" + tasksLoaded[i].type + "</span>";
+
+            listItemEl.appendChild(taskInfoEl)
+            var taskActionsEl = createTaskActions(tasksLoaded[i].id) 
+
+            listItemEl.appendChild(taskActionsEl)
+      
+                if (tasksLoaded[i].status === "to do") {
+                    listItemEl.querySelector("select[name='status-change']").selectedIndex = 0;
+                    tasksToDoEl.appendChild(listItemEl)
+                }
+                else if (tasksLoaded[i].status === "in progress") {
+                    listItemEl.querySelector("select[name='status-change']").selectedIndex = 1;
+                    tasksInProgressEl.appendChild(listItemEl)
+                }
+                else if (tasksLoaded[i].status === "completed") {
+                    listItemEl.querySelector("select[name='status-change']").selectedIndex = 2;
+                    tasksCompletedEl.appendChild(listItemEl)
+                }
+                
+            tasks.push(tasksLoaded[i]);
+            taskIdCounter++
+        }
+};
+
+loadTasks()
+
 //on button click or enter - create a task
 formEl.addEventListener("submit", taskFormHandler);
 //on button click - run button handler
